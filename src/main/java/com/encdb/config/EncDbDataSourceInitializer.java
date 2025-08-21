@@ -30,7 +30,7 @@ import java.util.Properties;
  * @version 1.0.0
  */
 @Configuration
-@ConditionalOnProperty(prefix = "encdb", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.datasource.encdb", name = "enabled", havingValue = "true")
 @AllArgsConstructor
 @ComponentScan(basePackages = "com.encdb")
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
