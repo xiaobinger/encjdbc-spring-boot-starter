@@ -3,6 +3,11 @@
 ```xml
 <dependencies>
     <dependency>
+        <groupId>com.aliyun</groupId>
+        <artifactId>aliyun-encdb-mysql-jdbc</artifactId>
+        <version>1.0.9-3</version>
+    </dependency>
+    <dependency>
         <groupId>com.xiaobinger.tools</groupId>
         <artifactId>encjdbc-spring-boot-starter</artifactId>
         <version>1.0.0</version>
