@@ -3,7 +3,7 @@
 ```xml
 <dependencies>
     <dependency>
-        <groupId>com.xiaobinger.tools</groupId>
+        <groupId>io.github.xiaobinger</groupId>
         <artifactId>encjdbc-spring-boot-starter</artifactId>
         <version>1.0.0</version>
     </dependency>
