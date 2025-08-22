@@ -1,12 +1,7 @@
 # encjdbc-spring-boot-starter
-集成阿里云数据库代理加密
+集成阿里云数据库代理加密 本项目依赖的encjdbc版本为 1.0.9-3
 ```xml
 <dependencies>
-    <dependency>
-        <groupId>com.aliyun</groupId>
-        <artifactId>aliyun-encdb-mysql-jdbc</artifactId>
-        <version>1.0.9-3</version>
-    </dependency>
     <dependency>
         <groupId>com.xiaobinger.tools</groupId>
         <artifactId>encjdbc-spring-boot-starter</artifactId>
