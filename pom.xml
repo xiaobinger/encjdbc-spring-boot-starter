@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.xiaobinger.tools</groupId>
+    <groupId>${project.groupId}</groupId>
     <artifactId>encjdbc-spring-boot-starter</artifactId>
     <version>1.0.0</version>
     <name>encjdbc-spring-boot-starter</name>
@@ -13,6 +13,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.6.13</spring-boot.version>
         <aliyun-encdb-mysql-version>1.0.9-3</aliyun-encdb-mysql-version>
+        <gpg.keyname>82D0DB9F2F4EE7FA</gpg.keyname>
+        <project.groupId>io.github.xiaobinger</project.groupId>
     </properties>
     <dependencies>
         <dependency>
@@ -54,16 +56,39 @@
         </dependencies>
     </dependencyManagement>
 
-    <!--<distributionManagement>
-        <snapshotRepository>
+    <profiles>
+        <!-- 中央仓库发布profile -->
+        <profile>
             <id>central</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>central</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/releases</url>
-        </repository>
-    </distributionManagement>-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <project.groupId>io.github.xiaobinger</project.groupId>
+            </properties>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>central</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>central</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/releases</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+
+        <!-- 私服发布profile -->
+        <profile>
+            <id>private</id>
+            <activation>
+                <activeByDefault>true</activeByDefault> <!-- 设置为默认激活 -->
+            </activation>
+            <properties>
+                <project.groupId>com.xiaobinger.tools</project.groupId>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -136,9 +161,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>3.0.1</version>
-                <configuration>
-                   <skip>true</skip>
-                </configuration>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -146,12 +168,22 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <skip>true</skip>
+                            <keyname>${gpg.keyname}</keyname>
+                            <gpgArguments>
+                                <arg>--batch</arg>
+                                <arg>--no-tty</arg>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
 
             <!-- 4. Nexus Staging Maven Plugin - 部署到OSSRH -->
-           <!-- <plugin>
+            <!--<plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.6.13</version>
@@ -161,10 +193,10 @@
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
-            &lt;!&ndash; 5. Maven Release Plugin - 自动化发布流程 &ndash;&gt;
-            <plugin>
+            <!-- 5. Maven Release Plugin - 自动化发布流程 -->
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.0</version>
