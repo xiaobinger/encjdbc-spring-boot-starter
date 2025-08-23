@@ -6,17 +6,20 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.ResourceBanner;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -52,7 +55,9 @@ public class EncDbDataSourceInitializer implements ApplicationContextAware {
         try {
             // 生成配置文件
             EncDbUtil.generateEncDbConfig(encDbProperties);
-            logger.info("Generated encdb config file at: {}", encDbProperties.getConfigPath());
+            if (encDbProperties.isShowLog()) {
+                logger.info("Generated encdb config file at: {}", encDbProperties.getConfigPath());
+            }
             // 修改现有数据源配置
             modifyDataSources();
 
@@ -113,7 +118,9 @@ public class EncDbDataSourceInitializer implements ApplicationContextAware {
             if (field != null) {
                 field.setAccessible(true);
                 Object oldValue = field.get(obj);
-                logger.info("Changing {} from {} to {}", "driverClassName", oldValue, newValue);
+                if (encDbProperties.isShowLog()) {
+                    logger.info("Changing {} from {} to {}", "driverClassName", oldValue, newValue);
+                }
                 field.set(obj, newValue);
             }
         } catch (Exception e) {
@@ -150,7 +157,9 @@ public class EncDbDataSourceInitializer implements ApplicationContextAware {
                 String oldUrl = (String) field.get(obj);
                 if (oldUrl != null) {
                     String newUrl = EncDbUtil.convertToEncDbUrl(oldUrl);
-                    logger.info("Changing URL from {} to {}", oldUrl, newUrl);
+                    if (encDbProperties.isShowLog()) {
+                        logger.info("Changing URL from {} to {}", oldUrl, newUrl);
+                    }
                     field.set(obj, newUrl);
                 }
             }

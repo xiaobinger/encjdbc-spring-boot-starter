@@ -43,4 +43,9 @@ public class EncDbProperties {
      * 加密配置文件路径
      */
     private String configPath = "/etc/encdb/config/encjdbc.conf";
+
+    /**
+     * 日志级别
+     */
+    private boolean showLog;
 }
