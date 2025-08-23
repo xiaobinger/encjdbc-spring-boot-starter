@@ -160,7 +160,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -169,7 +169,8 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <skip>true</skip>
+                            <skip>false</skip>
+                            <executable>C:/Program Files (x86)/GnuPG/bin/gpg.exe</executable>
                             <keyname>${gpg.keyname}</keyname>
                             <gpgArguments>
                                 <arg>--batch</arg>
