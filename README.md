@@ -26,3 +26,7 @@ spring:
     #加密配置文件路径 默认路径 /etc/encdb/config/encjdbc.conf
     configPath:
 ```
+
+### 版本更新记录
+<li>v1.0.0 初始版本</li>
+<li>v1.0.1 修复了一些bug:自动生成密钥算法优化等</li>
