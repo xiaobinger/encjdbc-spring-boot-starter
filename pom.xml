@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>${project.groupId}</groupId>
     <artifactId>encjdbc-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>encjdbc-spring-boot-starter</name>
     <description>encjdbc-spring-boot-starter</description>
     <properties>
