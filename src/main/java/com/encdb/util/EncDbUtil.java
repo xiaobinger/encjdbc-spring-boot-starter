@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -17,9 +18,10 @@ import java.util.Random;
  */
 public class EncDbUtil {
     public static final int RANDOM_MEK_LENGTH = 32;
-    public static final String RANDOM_MEK_CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String RANDOM_MEK_CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyz";
     public static final String DEFAULT_CONFIG_PATH = "/etc/encdb/config/encjdbc.conf";
     public static final String DEFAULT_ALGO = "SM4_128_CBC";
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
     /**
      * 生成encdb.conf配置文件
      * @param properties 配置属性
@@ -60,15 +62,34 @@ public class EncDbUtil {
         }
     }
 
+
+    /**
+     * 使用字节方式生成更安全的16进制密钥（推荐）
+     * @return 32位16进制字符串
+     */
     private static String generateRandomMek() {
-        Random random = new Random();
-        StringBuilder mekBuilder = new StringBuilder();
-        for (int i = 0; i < RANDOM_MEK_LENGTH; i++) {
-            int randomIndex = random.nextInt(RANDOM_MEK_LENGTH);
-            mekBuilder.append(RANDOM_MEK_CHARACTERS.charAt(randomIndex));
-        }
-        return mekBuilder.toString();
+        // 16字节 = 128位
+        byte[] keyBytes = new byte[16];
+        SECURE_RANDOM.nextBytes(keyBytes);
+        return bytesToHex(keyBytes);
     }
+    /**
+     * 将字节数组转换为16进制字符串
+     * @param bytes 字节数组
+     * @return 16进制字符串
+     */
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : bytes) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
     /**
      * 转换MySQL JDBC URL为加密URL
      * @param originalUrl 原始JDBC URL
