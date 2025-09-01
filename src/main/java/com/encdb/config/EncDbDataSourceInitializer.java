@@ -49,7 +49,7 @@ public class EncDbDataSourceInitializer implements ApplicationContextAware {
 
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (!encDbProperties.isEnabled()) {
+        if (!encDbProperties.isEnabled() || encDbProperties.getMek() == null || encDbProperties.getMek().isEmpty()) {
             return;
         }
         try {

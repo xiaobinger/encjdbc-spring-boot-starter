@@ -17,8 +17,6 @@ import java.util.Random;
  * @description 数据库列加密工具类
  */
 public class EncDbUtil {
-    public static final int RANDOM_MEK_LENGTH = 32;
-    public static final String RANDOM_MEK_CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyz";
     public static final String DEFAULT_CONFIG_PATH = "/etc/encdb/config/encjdbc.conf";
     public static final String DEFAULT_ALGO = "SM4_128_CBC";
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
